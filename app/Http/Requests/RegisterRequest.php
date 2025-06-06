@@ -8,7 +8,6 @@ class RegisterRequest extends FormRequest
 {
     public function authorize()
     {
-        // Cambiar a true para permitir el uso de esta request
         return true;
     }
 
