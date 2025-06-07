@@ -22,7 +22,7 @@ class LoginController extends Controller
         $token = $this->tokenService->createToken($user, 'auth_token');
 
         return response()->json([
-            'message' => 'Login exitoso.',
+            'message' => 'Successful login.',
             'user' => $user,
             'token' => $token,
         ]);

@@ -20,7 +20,7 @@ class LogoutController extends Controller
         $this->tokenService->revokeCurrentToken($user);
 
         return response()->json([
-            'message' => 'Logout exitoso.',
+            'message' => 'Successful logout.',
         ]);
     }
 }
