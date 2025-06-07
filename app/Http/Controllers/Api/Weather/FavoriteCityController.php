@@ -6,6 +6,7 @@ use App\Contracts\Api\Weather\FavoriteCityServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Weather\DeleteFavoriteCityRequest;
 use App\Http\Requests\Weather\FavoriteCityRequest;
+use App\Http\Requests\Weather\SeeFavoriteCityRequest;
 use App\Http\Resources\FavoriteCityResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -16,7 +17,7 @@ class FavoriteCityController extends Controller
     {
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index(SeeFavoriteCityRequest $request): AnonymousResourceCollection
     {
         $favorites = $this->service->getUserFavorites();
         return FavoriteCityResource::collection($favorites);
@@ -28,7 +29,7 @@ class FavoriteCityController extends Controller
         return new FavoriteCityResource($favorite);
     }
 
-    public function show(int $id): FavoriteCityResource
+    public function show(SeeFavoriteCityRequest $request, int $id): FavoriteCityResource
     {
         $favorite = $this->service->getFavoriteById($id);
         return new FavoriteCityResource($favorite);

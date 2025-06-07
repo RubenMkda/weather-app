@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Weather;
 
+use App\Enums\User\PermissionEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SearchWeatherRequest extends FormRequest

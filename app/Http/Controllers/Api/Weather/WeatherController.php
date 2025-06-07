@@ -35,7 +35,7 @@ class WeatherController extends Controller
         return new WeatherResource(collect($weatherData));
     }
 
-    public function recentSearches(Request $request)
+    public function recentSearches(SearchWeatherRequest $request)
     {
         $user = $request->user();
 

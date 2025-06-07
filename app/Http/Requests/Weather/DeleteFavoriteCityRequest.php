@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Weather;
 
+use App\Enums\User\PermissionEnum;
 use App\Models\Weather\FavoriteCity;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +14,10 @@ class DeleteFavoriteCityRequest extends FormRequest
     public function authorize()
     {
         $favorite = FavoriteCity::findOrFail($this->route('id'));
-        return $favorite->user_id === $this->user()->id;
+
+        return $favorite->user_id === $this->user()?->id
+            && $this->user()?->can(PermissionEnum::DELETE_FAVORITE_CITY);
+
     }
 
     /**

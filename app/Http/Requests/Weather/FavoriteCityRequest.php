@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Weather;
 
+use App\Enums\User\PermissionEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FavoriteCityRequest extends FormRequest
@@ -11,7 +12,7 @@ class FavoriteCityRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->can(PermissionEnum::CREATE_FAVORITE_CITY);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Services\Api\Auth;
 
 use App\Contracts\Api\Auth\UserServiceInterface;
 use App\Contracts\Api\User\LanguageRepositoryInterface;
+use App\Enums\User\RoleEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,19 +19,30 @@ class UserService implements UserServiceInterface
 
     public function createUser(array $data): User
     {
-        
-        if (!empty($data['lang'])) {
-            $language = $this->languageRepository->findByCode($data['lang']);
-            $data['language_id'] = $language->id;
-        }
-        
-        if (empty($language)) {
-            $language = $this->languageRepository->getDefaultLanguage();
-            $data['language_id'] = $language->id;
-        }
+        $data['language_id'] = $this->resolveLanguageId($data['lang'] ?? null);
         
         $data['password'] = Hash::make($data['password']);
         
-        return User::create($data);
+        $user = User::create($data);
+
+        $user->assignRole(RoleEnum::USER);
+
+        return $user;
     }
+
+    private function resolveLanguageId(?string $lang): int
+    {
+        if (empty($lang)) {
+            return $this->languageRepository->getDefaultLanguage()->id;
+        }
+
+        $language = $this->languageRepository->findByCode($lang);
+
+        if (!$language) {
+            return $this->languageRepository->getDefaultLanguage()->id;
+        }
+
+        return $language->id;
+    }
+
 }
