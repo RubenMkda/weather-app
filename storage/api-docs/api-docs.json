@@ -1,0 +1,643 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Weather API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Iniciar sesión",
+                "description": "Autentica al usuario y devuelve un token de acceso.",
+                "operationId": "7b9026fc5982d72a0a0978e3c868fc33",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "contraseña123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login exitoso."
+                                        },
+                                        "user": {
+                                            "description": "Datos del usuario autenticado",
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "name": "Juan Pérez",
+                                                "email": "usuario@example.com"
+                                            }
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Cerrar sesión",
+                "description": "Revoca el token de acceso actual del usuario autenticado.",
+                "operationId": "ba11eb17dc1da9ea215ac2810b6ae7f1",
+                "responses": {
+                    "200": {
+                        "description": "Logout exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout exitoso."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado - token inválido o inexistente"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registrar usuario",
+                "description": "Crea un nuevo usuario y genera un token de acceso.",
+                "operationId": "e21b8a4b1ab50f18b1b4b84cf83daf8f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "contraseña123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "contraseña123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/favorites": {
+            "get": {
+                "tags": [
+                    "Ciudades Favoritas"
+                ],
+                "summary": "Listar ciudades favoritas del usuario",
+                "description": "Devuelve la lista de ciudades favoritas asociadas al usuario autenticado",
+                "operationId": "c61d1554028898f96e470f0852370bad",
+                "responses": {
+                    "200": {
+                        "description": "Lista de ciudades favoritas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FavoriteCity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Ciudades Favoritas"
+                ],
+                "summary": "Agregar una ciudad a favoritos",
+                "description": "Permite al usuario agregar una ciudad a su lista de favoritas",
+                "operationId": "a82795097c3a426c2b15740b930e83ae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "city_id"
+                                ],
+                                "properties": {
+                                    "city_id": {
+                                        "type": "integer",
+                                        "example": 123
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ciudad favorita creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FavoriteCity"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Ciudad ya añadida o inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/favorites/{id}": {
+            "get": {
+                "tags": [
+                    "Ciudades Favoritas"
+                ],
+                "summary": "Ver ciudad favorita por ID",
+                "description": "Devuelve los detalles de una ciudad favorita específica",
+                "operationId": "e6e5a52c9a14aa99033a2d5c4a9e5a11",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ciudad favorita",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la ciudad favorita",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FavoriteCity"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciudad favorita no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Ciudades Favoritas"
+                ],
+                "summary": "Eliminar una ciudad favorita",
+                "description": "Elimina una ciudad favorita del usuario autenticado",
+                "operationId": "47436ad2189129b87c83f9cec7ae4565",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ciudad favorita a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ciudad favorita eliminada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Favorito eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciudad favorita no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/weather/search": {
+            "post": {
+                "tags": [
+                    "Weather"
+                ],
+                "summary": "Buscar el clima",
+                "description": "Obtiene el clima actual para una ciudad dada y registra la búsqueda.",
+                "operationId": "2d4e6290a01f17f2c3c00586ffd28a42",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "city"
+                                ],
+                                "properties": {
+                                    "city": {
+                                        "description": "Nombre de la ciudad para buscar el clima",
+                                        "type": "string",
+                                        "example": "Madrid"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Clima encontrado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WeatherResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validación fallida"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/weather/recent-searches": {
+            "get": {
+                "tags": [
+                    "Weather"
+                ],
+                "summary": "Búsquedas recientes",
+                "description": "Obtiene las búsquedas recientes de clima hechas por el usuario autenticado.",
+                "operationId": "84ab15f65840fda55c17a48b40acc195",
+                "responses": {
+                    "200": {
+                        "description": "Lista de búsquedas recientes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WeatherSearchResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "FavoriteCity": {
+                "title": "FavoriteCity",
+                "required": [
+                    "id",
+                    "city_id",
+                    "name",
+                    "user_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "city_id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Madrid"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 42
+                    }
+                },
+                "type": "object"
+            },
+            "FavoriteCityResource": {
+                "title": "Ciudad Favorita",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "city_id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "city": {
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Madrid"
+                            },
+                            "latitude": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 40.4168
+                            },
+                            "longitude": {
+                                "type": "number",
+                                "format": "float",
+                                "example": -3.7038
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-07T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "description": "Datos del usuario",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "usuario@example.com"
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "language_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-07T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "WeatherResource": {
+                "description": "Datos actuales del clima para una ciudad",
+                "properties": {
+                    "city": {
+                        "description": "Nombre de la ciudad",
+                        "type": "string",
+                        "example": "Madrid"
+                    },
+                    "country": {
+                        "description": "Nombre del país",
+                        "type": "string",
+                        "example": "Spain"
+                    },
+                    "local_time": {
+                        "description": "Hora local de la ciudad",
+                        "type": "string",
+                        "example": "2025-06-07 15:30"
+                    },
+                    "temperature_celsius": {
+                        "description": "Temperatura en grados Celsius",
+                        "type": "number",
+                        "format": "float",
+                        "example": 23.4
+                    },
+                    "weather_condition": {
+                        "description": "Descripción del clima",
+                        "type": "string",
+                        "example": "Sunny"
+                    },
+                    "wind_speed_kph": {
+                        "description": "Velocidad del viento en kilómetros por hora",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15.2
+                    },
+                    "humidity_percent": {
+                        "description": "Porcentaje de humedad",
+                        "type": "integer",
+                        "example": 65
+                    }
+                },
+                "type": "object"
+            },
+            "WeatherSearchResource": {
+                "description": "Registro de búsqueda reciente del clima",
+                "properties": {
+                    "searched_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-07T12:34:56"
+                    },
+                    "weather_data": {
+                        "$ref": "#/components/schemas/WeatherDataResource"
+                    }
+                },
+                "type": "object"
+            },
+            "WeatherDataResource": {
+                "description": "Datos meteorológicos relacionados con la búsqueda",
+                "properties": {
+                    "location": {
+                        "description": "Información del lugar",
+                        "properties": {
+                            "city": {
+                                "type": "string",
+                                "example": "Madrid"
+                            },
+                            "country": {
+                                "type": "string",
+                                "example": "Spain"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "temperature": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 23.5
+                    },
+                    "condition": {
+                        "type": "string",
+                        "example": "Sunny"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Autenticación y gestión de usuarios"
+        },
+        {
+            "name": "Weather",
+            "description": "Operaciones relacionadas con el clima"
+        },
+        {
+            "name": "Ciudades Favoritas",
+            "description": "Ciudades Favoritas"
+        }
+    ]
+}

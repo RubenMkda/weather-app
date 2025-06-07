@@ -7,11 +7,20 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class WeatherResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+/**
+ * @OA\Schema(
+ *     schema="WeatherResource",
+ *     type="object",
+ *     description="Datos actuales del clima para una ciudad",
+ *     @OA\Property(property="city", type="string", example="Madrid", description="Nombre de la ciudad"),
+ *     @OA\Property(property="country", type="string", example="Spain", description="Nombre del país"),
+ *     @OA\Property(property="local_time", type="string", example="2025-06-07 15:30", description="Hora local de la ciudad"),
+ *     @OA\Property(property="temperature_celsius", type="number", format="float", example=23.4, description="Temperatura en grados Celsius"),
+ *     @OA\Property(property="weather_condition", type="string", example="Sunny", description="Descripción del clima"),
+ *     @OA\Property(property="wind_speed_kph", type="number", format="float", example=15.2, description="Velocidad del viento en kilómetros por hora"),
+ *     @OA\Property(property="humidity_percent", type="integer", example=65, description="Porcentaje de humedad")
+ * )
+ */
     public function toArray($request)
     {
         return [
