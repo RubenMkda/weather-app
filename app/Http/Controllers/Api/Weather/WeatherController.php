@@ -8,12 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Weather\SearchWeatherRequest;
 use App\Http\Resources\WeatherResource;
 
-class WeatherController extends Controller
+class WeatherController extends Controller  
 {
-    public function __construct(
-        private WeatherServiceInterface $weatherService,
-        private WeatherSearchRecorderInterface $searchRecorder,
-    ) {}
+    public function __construct(private WeatherServiceInterface $weatherService, private WeatherSearchRecorderInterface $searchRecorder) 
+    {
+    }
 
     public function search(SearchWeatherRequest $request)
     {

@@ -2,6 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Weather\WeatherController;
+use App\Http\Middleware\Auth\OptionalAuthWithLimit;
 
-Route::post('/weather/search', [WeatherController::class, 'search']);
-Route::post('/weather/favorite', [WeatherController::class, 'favorite']);
+Route::post('/weather/search', [WeatherController::class, 'search'])->middleware(OptionalAuthWithLimit::class);

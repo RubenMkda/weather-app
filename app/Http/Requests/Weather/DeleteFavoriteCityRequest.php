@@ -2,16 +2,18 @@
 
 namespace App\Http\Requests\Weather;
 
+use App\Models\Weather\FavoriteCity;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FavoriteCityRequest extends FormRequest
+class DeleteFavoriteCityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize()
     {
-        return true;
+        $favorite = FavoriteCity::findOrFail($this->route('id'));
+        return $favorite->user_id === $this->user()->id;
     }
 
     /**
@@ -21,8 +23,6 @@ class FavoriteCityRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'city_id' => 'required|exists:cities,id',
-        ];
+        return [];
     }
 }

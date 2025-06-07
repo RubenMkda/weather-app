@@ -3,6 +3,7 @@
 namespace App\Services\Api\Weather;
 
 use App\Contracts\Api\Weather\WeatherSearchRecorderInterface;
+use App\Http\Resources\WeatherResource;
 use App\Models\Weather\City;
 use App\Models\Weather\Country;
 use App\Models\Weather\WeatherSearch;
@@ -28,7 +29,7 @@ class WeatherSearchRecorder implements WeatherSearchRecorderInterface
             WeatherSearch::create([
                 'user_id' => $user->id,
                 'city_id' => $city->id,
-                'weather_data' => $weatherData
+                'weather_data' => new WeatherResource($weatherData)
             ]);
         }
 
