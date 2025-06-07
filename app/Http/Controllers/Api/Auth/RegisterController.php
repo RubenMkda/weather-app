@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Contracts\Api\Auth\UserServiceInterface;
+use App\Contracts\Api\User\TokenServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
-use App\Services\Api\Auth\TokenService;
-use App\Services\Api\Auth\UserService;
 use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
     public function __construct(
-        private UserService $userService,
-        private TokenService $tokenService
+        private UserServiceInterface $userService,
+        private TokenServiceInterface $tokenService
     ) {}
 
     public function register(RegisterRequest $request): JsonResponse

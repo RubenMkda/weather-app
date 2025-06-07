@@ -2,11 +2,12 @@
 
 namespace App\Services\Api\Auth;
 
+use App\Contracts\Api\Auth\UserServiceInterface;
 use App\Contracts\Api\User\LanguageRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class UserService
+class UserService implements UserServiceInterface
 {
     protected $languageRepository;
 
