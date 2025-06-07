@@ -9,22 +9,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('countries', function (Blueprint $table) {
-            $table->string('code', 5)->primary();
+            $table->id();
             $table->string('name');
         });
 
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('country_code', 5);
+            $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
             $table->timestamps();
-
-            $table->foreign('country_code')->references('code')->on('countries')->cascadeOnDelete();
-
-            $table->index('country_code');
+        
+            $table->index('country_id');
         });
+        
 
         Schema::create('weather_searches', function (Blueprint $table) {
             $table->id();

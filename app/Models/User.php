@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User\Language;
+use App\Models\Weather\WeatherSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'language_id'
     ];
 
     /**
@@ -51,5 +53,12 @@ class User extends Authenticatable
     public function language()
     {
         return $this->belongsTo(Language::class);
+    }
+
+    public function recentWeatherSearches()
+    {
+        return $this->hasMany(WeatherSearch::class)
+            ->orderByDesc('searched_at')
+            ->take(10);
     }
 }

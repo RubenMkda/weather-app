@@ -13,16 +13,16 @@ class City extends Model
 
     protected $fillable = [
         'name',
-        'country_code',
+        'country_id',
         'latitude',
         'longitude',
     ];
 
     public function country(): BelongsTo
     {
-        return $this->belongsTo(Country::class, 'country_code', 'code');
+        return $this->belongsTo(Country::class);
     }
-
+    
     public function weatherSearches(): HasMany
     {
         return $this->hasMany(WeatherSearch::class);
