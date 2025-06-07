@@ -11,4 +11,9 @@ class LanguageRepository implements LanguageRepositoryInterface
     {
         return Language::where('is_default', true)->first();
     }
+
+    public function findByCode(string $code): ?Language
+    {
+        return Language::where('code', $code)->first();
+    }
 }

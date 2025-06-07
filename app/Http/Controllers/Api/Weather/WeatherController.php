@@ -24,7 +24,10 @@ class WeatherController extends Controller
     {
         $cityName = $request->input('city');
 
-        $weatherData = $this->weatherService->getWeather($cityName);
+        $user = $request->user();
+        $language = $user->language->code ?? $request->header('Accept-Language', 'en');
+
+        $weatherData = $this->weatherService->getWeather($cityName, $language);
 
         $countryName = $weatherData['location']['country'];
         $this->searchRecorder->record($weatherData, $cityName, $countryName);

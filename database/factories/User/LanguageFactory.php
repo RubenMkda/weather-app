@@ -21,32 +21,9 @@ class LanguageFactory extends Factory
     public function definition(): array
     {
         return [
-            'code'       => $this->faker->unique()->languageCode,
-            'name'       => $this->faker->languageCode,
+            'code' => $this->faker->unique()->languageCode,
+            'name' => $this->faker->languageCode,
             'is_default' => false,
         ];
-    }
-
-    public function default(): static
-    {
-        return $this->state([
-            'is_default' => true,
-        ]);
-    }
-
-    public function spanish(): static
-    {
-        return $this->state([
-            'code' => 'es',
-            'name' => 'Español',
-        ]);
-    }
-
-    public function english(): static
-    {
-        return $this->state([
-            'code' => 'en',
-            'name' => 'English',
-        ]);
     }
 }

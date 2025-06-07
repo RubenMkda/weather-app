@@ -18,11 +18,19 @@ class UserService implements UserServiceInterface
 
     public function createUser(array $data): User
     {
-        $language = $this->languageRepository->getDefaultLanguage();
-        $data['language_id'] = $language->id ?? null;
-
+        
+        if (!empty($data['lang'])) {
+            $language = $this->languageRepository->findByCode($data['lang']);
+            $data['language_id'] = $language->id;
+        }
+        
+        if (empty($language)) {
+            $language = $this->languageRepository->getDefaultLanguage();
+            $data['language_id'] = $language->id;
+        }
+        
         $data['password'] = Hash::make($data['password']);
-
+        
         return User::create($data);
     }
 }

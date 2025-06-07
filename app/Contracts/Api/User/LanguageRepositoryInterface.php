@@ -11,4 +11,5 @@ interface LanguageRepositoryInterface
    * @return Language|null
    */
   public function getDefaultLanguage(): ?Language;
+  public function findByCode(string $code): ?Language;
 }

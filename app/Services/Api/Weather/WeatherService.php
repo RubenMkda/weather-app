@@ -9,18 +9,19 @@ use Illuminate\Support\Facades\Log;
 
 class WeatherService implements WeatherServiceInterface
 {
-    public function getWeather(string $city): array
+    public function getWeather(string $city, string $lang = 'en'): array
     {
-        $cacheKey = "weather_{$city}";
+        $cacheKey = "weather_{$city}_{$lang}";
     
-        return Cache::remember($cacheKey, 600, function () use ($city) {
-            Log::info("Llamando al endpoint de WeatherAPI para {$city}");
+        return Cache::remember($cacheKey, 600, function () use ($city, $lang) {
+            Log::info("Llamando al endpoint de WeatherAPI para {$city} con idioma {$lang}");
     
             $apiKey = config('services.weatherapi.key');
             $response = Http::get("http://api.weatherapi.com/v1/current.json", [
                 'key' => $apiKey,
                 'q' => $city,
-                'aqi' => 'no'
+                'aqi' => 'no',
+                'lang' => $lang 
             ]);
     
             if ($response->unauthorized()) {
@@ -46,5 +47,6 @@ class WeatherService implements WeatherServiceInterface
             return $response->json();
         });
     }
+    
     
 }
