@@ -22,7 +22,7 @@ Además, incluye documentación Swagger y una colección Postman para facilitar 
    ```bash
    git clone https://github.com/tuusuario/tu-repo-api.git
    cd tu-repo-api
-````
+   ```
 
 2. Instala las dependencias de PHP y npm:
 
