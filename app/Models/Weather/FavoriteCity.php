@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Database\Factories\Weather\FavoriteCityFactory;
 
 class FavoriteCity extends Model
 {
@@ -24,5 +25,10 @@ class FavoriteCity extends Model
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    protected static function newFactory()
+    {
+        return FavoriteCityFactory::new();
     }
 }

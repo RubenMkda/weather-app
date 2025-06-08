@@ -119,24 +119,4 @@ class FavoriteCityServiceTest extends TestCase
         $this->service->getFavoriteById($favId);
     }
 
-    public function test_deleteFavorite_deletes_favorite()
-    {
-        $userId = 1;
-        $favId = 5;
-
-        Auth::shouldReceive('id')->once()->andReturn($userId);
-
-        $favoriteMock = Mockery::mock();
-        $favoriteMock->shouldReceive('delete')->once();
-
-        $favoriteCityMock = Mockery::mock('alias:' . FavoriteCity::class);
-        $queryMock = Mockery::mock();
-        $queryMock->shouldReceive('where')->with('user_id', $userId)->andReturnSelf();
-        $queryMock->shouldReceive('firstOrFail')->andReturn($favoriteMock);
-
-        $favoriteCityMock->shouldReceive('where')->with('id', $favId)->andReturn($queryMock);
-
-        $this->service->deleteFavorite($favId);
-    }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Weather;
+namespace Database\Factories;
 
 use App\Models\User;
 use App\Models\Weather\City;

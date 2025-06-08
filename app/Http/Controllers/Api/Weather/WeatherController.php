@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Weather;
 use App\Contracts\Api\Weather\WeatherSearchRecorderInterface;
 use App\Contracts\Api\Weather\WeatherServiceInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Weather\RecentSearchesRequest;
 use App\Http\Requests\Weather\SearchWeatherRequest;
 use App\Http\Resources\WeatherResource;
 use App\Http\Resources\WeatherSearchResource;
@@ -35,7 +36,7 @@ class WeatherController extends Controller
         return new WeatherResource(collect($weatherData));
     }
 
-    public function recentSearches(SearchWeatherRequest $request)
+    public function recentSearches(RecentSearchesRequest $request)
     {
         $user = $request->user();
 
