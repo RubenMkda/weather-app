@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Api\Weather;
+namespace Tests\Unit\Api\Weather;
 
 use App\Models\User;
 use App\Models\Weather\WeatherSearch;

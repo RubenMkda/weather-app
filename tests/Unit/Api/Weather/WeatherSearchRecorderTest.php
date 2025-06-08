@@ -1,15 +1,12 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Api\Weather;
 
 use App\Models\User;
 use App\Models\Weather\City;
-use App\Models\Weather\Country;
-use App\Models\Weather\WeatherSearch;
 use App\Services\Api\Weather\WeatherSearchRecorder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class WeatherSearchRecorderTest extends TestCase

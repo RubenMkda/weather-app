@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Auh;
 
 use App\Models\User;
 use App\Services\Api\Auth\TokenService;

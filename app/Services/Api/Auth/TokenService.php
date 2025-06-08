@@ -7,7 +7,7 @@ use App\Models\User;
 
 class TokenService implements TokenServiceInterface
 {
-    public function createToken($user, string $tokenName): string
+    public function createToken(User $user, string $tokenName): string
     {
         return $user->createToken($tokenName)->plainTextToken;
     }
