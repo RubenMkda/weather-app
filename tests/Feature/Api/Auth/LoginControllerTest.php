@@ -1,15 +1,12 @@
 <?php
 
-namespace Tests\Unit\Services\Api\Auth;
+namespace Tests\Feature\Api\Auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Mockery;
 use App\Contracts\Api\User\TokenServiceInterface;
-use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\Request;
 
 class LoginControllerTest extends TestCase
 {

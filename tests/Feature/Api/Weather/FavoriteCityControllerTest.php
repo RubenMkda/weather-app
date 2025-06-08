@@ -102,22 +102,27 @@ class FavoriteCityControllerTest extends TestCase
         $response = $this->deleteJson("/api/favorites/{$favorite->id}");
 
         $response->assertOk()
-            ->assertJson(['message' => 'Favorito eliminado correctamente']);
+            ->assertJson(['message' => 'Favorite successfully deleted']);
 
         $this->assertDatabaseMissing('favorite_cities', ['id' => $favorite->id]);
     }
 
     public function test_user_cannot_delete_other_users_favorite()
     {
-        $this->user->givePermissionTo('delete favorite_city');
-
+        $user = User::factory()->create();
+        $user->givePermissionTo('delete favorite_city');
+    
+        $this->actingAs($user);
+    
         $otherUser = User::factory()->create();
+    
         $favorite = FavoriteCity::factory()->create([
             'user_id' => $otherUser->id,
         ]);
 
         $response = $this->deleteJson("/api/favorites/{$favorite->id}");
-
-        $response->assertStatus(403); 
+    
+        $response->assertStatus(403);
     }
+    
 }

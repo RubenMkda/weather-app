@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services\Api\Auth;
 
 use App\Contracts\Api\User\LanguageRepositoryInterface;
 use App\Enums\User\RoleEnum;
