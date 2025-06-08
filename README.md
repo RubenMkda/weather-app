@@ -20,8 +20,8 @@ Además, incluye documentación Swagger y una colección Postman para facilitar 
 1. Clona este repositorio:
 
    ```bash
-   git clone https://github.com/tuusuario/tu-repo-api.git
-   cd tu-repo-api
+   git clone https://github.com/RubenMkda/weather-app.git
+   cd weather-app
    ```
 
 2. Instala las dependencias de PHP y npm:
@@ -43,7 +43,7 @@ Además, incluye documentación Swagger y una colección Postman para facilitar 
    php artisan key:generate
    ```
 
-5. Ejecuta las migraciones y los seeders:
+5. Ejecuta las migraciones y los seeders, crear base de datos y conectarla al .env (del mismo comando te lo da si no lo tienes):
 
    ```bash
    php artisan migrate --seed
